@@ -896,14 +896,27 @@ html.lenis, html.lenis body {
 /* Flight Path Animation */
 .tp-flight {
   width: 100%;
-  position: relative;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+@media (max-width: 639px) {
+  .tp-flight {
+    width: 86%;
+  }
+}
+.tp-flight > svg {
+  width: 100%;
+  height: 100%;
+  display: block;
   overflow: visible;
 }
 .tp-flight__route {
   fill: none;
   stroke: var(--color-toffee-deep);
-  stroke-width: 3.5px;
-  stroke-dasharray: 4 12;
+  stroke-width: 3px;
+  stroke-dasharray: 3 11;
   stroke-linecap: round;
 }
 .tp-flight__dot {
@@ -911,24 +924,35 @@ html.lenis, html.lenis body {
 }
 .tp-flight__label {
   font-family: var(--font-hand);
-  fill: var(--color-cocoa);
+  fill: var(--color-cocoa-soft);
   font-size: 19px;
   font-weight: 700;
 }
 .tp-flight__body {
   fill: var(--color-milk);
   stroke: var(--color-cocoa);
-  stroke-width: 3.5px;
+  stroke-width: 4px;
   stroke-linejoin: round;
 }
 .tp-flight__wing {
   fill: var(--color-toffee);
   stroke: var(--color-cocoa);
-  stroke-width: 3.5px;
+  stroke-width: 4px;
   stroke-linejoin: round;
 }
 .tp-flight__wing--far {
   fill: var(--color-toffee-deep);
+}
+.tp-flight__line {
+  fill: none;
+  stroke: var(--color-cocoa);
+  stroke-width: 3.5px;
+  stroke-linecap: round;
+}
+.tp-flight__porthole {
+  fill: none;
+  stroke: var(--color-cocoa);
+  stroke-width: 4px;
 }
 
 /* Lineup & Hero Quilt */
@@ -1140,6 +1164,13 @@ html.lenis, html.lenis body {
 .tp-paths {
   position: relative;
   overflow: hidden;
+  padding-block: clamp(4.5rem, 11vh, 8rem) clamp(3rem, 8vh, 6rem);
+}
+.tp-paths__title {
+  text-align: center;
+  max-width: 13ch;
+  margin-inline: auto;
+  line-height: 1.05;
 }
 .tp-fork {
   gap: 2.5rem;
@@ -1243,6 +1274,12 @@ html.lenis, html.lenis body {
   height: clamp(13rem, 20vw, 18rem);
   margin-top: 1.5rem;
   position: relative;
+}
+.tp-way__skyline {
+  width: 100%;
+  position: absolute;
+  inset: auto 0 0;
+  color: #2a170e4d;
 }
 .tp-window {
   text-align: center;

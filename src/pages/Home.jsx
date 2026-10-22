@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { fetchPuppies, fetchHappyFamilies } from '../lib/supabase';
 import TeddyMascot from '../components/TeddyMascot';
+import Flight from '../components/Flight';
 
 export default function Home({ navigate }) {
   const [puppies, setPuppies] = useState([]);
@@ -328,12 +329,14 @@ export default function Home({ navigate }) {
           3. TWO WAYS TO MEET YOUR PUPPY (tp-paths with Signpost & Mascot)
           ========================================================================= */}
       <section 
-        className="tp-paths py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#fbe3b4] to-[#f7d18d] relative"
+        className="tp-scene tp-paths py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#fbe3b4] to-[#f7d18d] relative"
+        style={{ "--sky-top": "#fbe3b4", "--sky-bottom": "#f7d18d" }}
         aria-labelledby="paths-title"
       >
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 id="paths-title" className="font-plush text-5xl sm:text-6xl md:text-7xl font-black text-cocoa leading-tight">
-            Two ways to meet your puppy
+        <div className="gutter mx-auto max-w-[110rem]">
+          <h2 id="paths-title" className="tp-paths__title font-plush text-huge">
+            <span className="block">Two Ways to</span>
+            <span className="block">Meet Your Puppy</span>
           </h2>
 
           <div className="tp-fork">
@@ -341,22 +344,22 @@ export default function Home({ navigate }) {
             <div aria-hidden="true" className="tp-fork__post" />
 
             {/* Left Column: Puppies in Dubai */}
-            <article className="tp-way tp-way--left">
-              <h3 className="tp-sign tp-sign--left font-plush">
+            <article className="tp-way tp-way--left" aria-labelledby="way-local">
+              <h3 id="way-local" className="tp-sign tp-sign--left font-plush">
                 Puppies in Dubai
               </h3>
 
               <div className="tp-way__scene">
                 {/* Dubai Skyline Outline SVG */}
-                <svg viewBox="0 0 300 120" className="w-full h-32 absolute bottom-0 left-0 stroke-current text-cocoa/20 fill-none" aria-hidden="true">
-                  <path d="M4 116h292M20 116V74h16v42M44 116V50h18v66M70 116V82h12v34M150 116V20l4-6v-8l3-3 3 3v8l4 6v88M118 116V60l12-8v64M174 116V54l14 8v54M200 116V72h18v44M226 116V46h14v70M248 116V78h22v38" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                <svg viewBox="0 0 300 120" className="tp-way__skyline" aria-hidden="true">
+                  <path d="M4 116h292M20 116V78h16v38M44 116V60h18v56M70 116V84h12v32M150 116V36l4-6v-14l3-4 3 4v14l4 6v80M118 116V70l12-8v54M174 116V64l14 8v44M200 116V82h18v34M226 116V56h14v60M248 116V88h22v28" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
 
                 {/* Showroom Window with Striped Awning */}
                 <figure className="tp-window">
                   <span className="tp-window__glass">
                     <img 
-                      src={puppies[1]?.cover_image || 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80'} 
+                      src={puppies[1]?.cover_image || 'https://puppy.instabizweb.com/_next/image?url=%2Fmedia%2FFHyoHcIosLZE%2F60f6e7e00a%2F27b888_323008bb0f6a41d4bde2a0da7206cd98f000.jpg&w=1200&q=75'} 
                       alt="Showroom Puppy" 
                       className="w-full h-full object-cover"
                     />
@@ -365,13 +368,13 @@ export default function Home({ navigate }) {
                 </figure>
               </div>
 
-              <p className="tp-way__text text-base text-cocoa-soft font-medium leading-relaxed">
+              <p className="tp-way__text">
                 See them, love them, take them home. Come meet our locally available puppies before you decide.
               </p>
 
               <button
                 onClick={() => navigate('/puppies?origin=local')}
-                className="mt-5 px-7 py-3 rounded-full bg-[#8a421d] hover:bg-[#743515] text-white font-bold text-sm shadow-[0_3px_0_#52230d] transition-all cursor-pointer"
+                className="btn btn-primary"
               >
                 Meet local puppies
               </button>
@@ -383,41 +386,26 @@ export default function Home({ navigate }) {
             </div>
 
             {/* Right Column: Imported for you */}
-            <article className="tp-way tp-way--right">
-              <h3 className="tp-sign tp-sign--right font-plush">
+            <article className="tp-way tp-way--right" aria-labelledby="way-imported">
+              <h3 id="way-imported" className="tp-sign tp-sign--right font-plush">
                 Imported for you
               </h3>
 
               <div className="tp-way__scene">
-                {/* Airplane Bezier Flight Route */}
-                <svg viewBox="0 0 360 160" className="w-full h-full" aria-hidden="true">
-                  <path d="M20 120 C 90 20, 240 20, 320 80" fill="none" stroke="var(--color-toffee-deep)" strokeWidth="2.5" strokeDasharray="5 5" />
-                  <circle cx="20" cy="120" r="5" fill="var(--color-toffee-deep)" />
-                  <circle cx="320" cy="80" r="5" fill="var(--color-toffee-deep)" />
-                  <text x="20" y="145" textAnchor="middle" className="font-scrawl text-xs font-bold fill-cocoa">Korea</text>
-                  <text x="320" y="105" textAnchor="middle" className="font-scrawl text-xs font-bold fill-cocoa">Dubai</text>
-
-                  {/* Airplane Group with Porthole Puppy Photo */}
-                  <g transform="translate(180, 25)">
-                    {/* Fuselage */}
-                    <path d="M10 24 C10 12 24 8 48 8 L72 8 C88 8 98 16 98 24 C98 32 88 40 72 40 L48 40 C24 40 10 36 10 24 Z" fill="#fffdf8" stroke="#2a170e" strokeWidth="2.5" />
-                    {/* Wings */}
-                    <path d="M40 8 L54 -12 L68 -12 L62 8 Z" fill="#c2622b" stroke="#2a170e" strokeWidth="2" />
-                    <path d="M42 32 L30 60 L46 60 L66 32 Z" fill="#a24a1a" stroke="#2a170e" strokeWidth="2" />
-                    {/* Porthole */}
-                    <circle cx="76" cy="24" r="8" fill="#bfddf5" stroke="#2a170e" strokeWidth="1.5" />
-                    <text x="76" y="27" textAnchor="middle" fontSize="10">🐶</text>
-                  </g>
-                </svg>
+                {/* Airplane Bezier Flight Route with Scroll Animation */}
+                <Flight 
+                  photo={pupMaltipoo?.cover_image || 'https://puppy.instabizweb.com/_next/image?url=%2Fmedia%2FgAaGwoGej2g6%2F5523e884dd%2Fb942a5_50f0ae67c9ff437d911597d52a9e63b3-mv2.jpg&w=128&q=75'}
+                  label="A plane bringing a Korean Teacup Maltipoo puppy from Korea to Dubai"
+                />
               </div>
 
-              <p className="tp-way__text text-base text-cocoa-soft font-medium leading-relaxed">
+              <p className="tp-way__text">
                 Exclusive Korean teacup puppies, delivered. Order from the world's most reputable breeders and let us handle the import.
               </p>
 
               <button
                 onClick={() => navigate('/puppies?origin=imported')}
-                className="mt-5 px-7 py-3 rounded-full bg-[#8a421d] hover:bg-[#743515] text-white font-bold text-sm shadow-[0_3px_0_#52230d] transition-all cursor-pointer"
+                className="btn btn-primary"
               >
                 See imported puppies
               </button>

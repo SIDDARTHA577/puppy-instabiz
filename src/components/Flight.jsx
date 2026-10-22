@@ -1,139 +1,95 @@
-import { useRef, useEffect } from 'react';
-import { useScroll, useTransform } from 'framer-motion';
+import React, { useRef, useEffect, useId } from 'react';
+import { useScroll } from 'framer-motion';
 
-export default function Flight({ label = 'Puppy travel flight from Korea to Dubai' }) {
+export default function Flight({ 
+  photo = 'https://puppy.instabizweb.com/_next/image?url=%2Fmedia%2FgAaGwoGej2g6%2F5523e884dd%2Fb942a5_50f0ae67c9ff437d911597d52a9e63b3-mv2.jpg&w=128&q=75', 
+  label = 'A plane bringing a Korean Teacup Maltipoo puppy from Korea to Dubai' 
+}) {
   const containerRef = useRef(null);
   const pathRef = useRef(null);
+  const planeRef = useRef(null);
+  const clipId = useId();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start 90%', 'end 25%'],
+    offset: ['start 95%', 'end 25%'],
   });
 
-  // Calculate motion along bezier path
-  const progress = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const updatePlane = (progress) => {
+    const path = pathRef.current;
+    const plane = planeRef.current;
+    if (!path || !plane) return;
+
+    const totalLen = path.getTotalLength();
+    const p = Math.min(1, Math.max(0, progress));
+    const curLen = p * totalLen;
+    const pt = path.getPointAtLength(curLen);
+    const nextPt = path.getPointAtLength(Math.min(totalLen, curLen + 1));
+    const prevPt = path.getPointAtLength(Math.max(0, curLen - 1));
+    const angle = (180 * Math.atan2(nextPt.y - prevPt.y, nextPt.x - prevPt.x)) / Math.PI;
+
+    plane.setAttribute(
+      'transform',
+      `translate(${pt.x.toFixed(1)} ${pt.y.toFixed(1)}) rotate(${angle.toFixed(1)})`
+    );
+    // Smoothly fade in as it takes off
+    plane.style.opacity = String(Math.min(1, Math.max(0, (progress - 0.05) / 0.1)));
+  };
+
+  useEffect(() => {
+    updatePlane(scrollYProgress.get());
+    const unsubscribe = scrollYProgress.on('change', (latest) => {
+      updatePlane(latest);
+    });
+    return () => unsubscribe();
+  }, [scrollYProgress]);
 
   return (
-    <div ref={containerRef} className="tp-flight relative w-full h-[220px] md:h-[280px] overflow-visible my-8">
+    <div ref={containerRef} className="tp-flight">
       <svg
         viewBox="0 0 660 300"
         role="img"
         aria-label={label}
-        className="w-full h-full overflow-visible"
       >
         <defs>
-          <clipPath id="flight-window">
-            <circle cx="95" cy="56" r="14" />
+          <clipPath id={clipId}>
+            <circle r="25" />
           </clipPath>
         </defs>
-
-        {/* Flight route dashed bezier curve */}
         <path
           ref={pathRef}
           d="M40 250 C 170 40, 470 20, 620 168"
-          fill="none"
-          stroke="var(--color-toffee-deep)"
-          strokeWidth="3.5"
-          strokeDasharray="4 12"
-          strokeLinecap="round"
-          className="opacity-75"
+          className="tp-flight__route"
         />
+        <circle cx="40" cy="250" r="7" className="tp-flight__dot" />
+        <circle cx="620" cy="168" r="7" className="tp-flight__dot" />
+        <text x="40" y="284" textAnchor="middle" className="tp-flight__label">Korea</text>
+        <text x="620" y="202" textAnchor="middle" className="tp-flight__label">Dubai</text>
 
-        {/* Origin dot & label: Korea */}
-        <circle cx="40" cy="250" r="7" fill="var(--color-toffee-deep)" />
-        <circle cx="40" cy="250" r="14" fill="none" stroke="var(--color-toffee)" strokeWidth="1.5" className="animate-ping opacity-30" />
-        <text
-          x="40"
-          y="282"
-          textAnchor="middle"
-          className="font-scrawl text-[1.2rem] font-bold fill-[#2a170e]"
-        >
-          🇰🇷 Seoul, Korea
-        </text>
-
-        {/* Destination dot & label: Dubai */}
-        <circle cx="620" cy="168" r="7" fill="var(--color-toffee-deep)" />
-        <circle cx="620" cy="168" r="14" fill="none" stroke="var(--color-toffee)" strokeWidth="1.5" className="animate-ping opacity-30" />
-        <text
-          x="620"
-          y="202"
-          textAnchor="middle"
-          className="font-scrawl text-[1.2rem] font-bold fill-[#2a170e]"
-        >
-          🇦🇪 Dubai, UAE
-        </text>
-
-        {/* Moving Airplane on Route */}
-        <FlightAirplane scrollProgress={progress} pathRef={pathRef} />
+        <g ref={planeRef} transform="translate(410 70)">
+          <g transform="translate(-126 -78)">
+            <path d="M28 60 L8 26 L34 26 L60 54 Z" className="tp-flight__wing" />
+            <path d="M108 112 L142 156 L172 156 L158 112 Z" className="tp-flight__wing tp-flight__wing--far" />
+            <path d="M20 80 C20 52 52 44 80 44 L168 44 C200 44 224 60 232 80 C224 100 200 112 168 112 L80 112 C52 112 20 104 20 80 Z" className="tp-flight__body" />
+            <path d="M104 44 L138 2 L168 2 L154 44 Z" className="tp-flight__wing" />
+            <path d="M206 64 C215 67 221 73 224 80" className="tp-flight__line" />
+          </g>
+          {photo && (
+            <g transform="translate(10 2)">
+              <image
+                href={photo}
+                x="-25"
+                y="-25"
+                width="50"
+                height="50"
+                clipPath={`url(#${clipId})`}
+                preserveAspectRatio="xMidYMid slice"
+              />
+              <circle r="25" className="tp-flight__porthole" />
+            </g>
+          )}
+        </g>
       </svg>
     </div>
-  );
-}
-
-function FlightAirplane({ scrollProgress, pathRef }) {
-  const planeGroupRef = useRef(null);
-
-  useEffect(() => {
-    const unsubscribe = scrollProgress.on('change', (latest) => {
-      const path = pathRef.current;
-      const group = planeGroupRef.current;
-      if (!path || !group) return;
-
-      const totalLen = path.getTotalLength();
-      const curLen = Math.min(totalLen, Math.max(0, latest * totalLen));
-      const pt = path.getPointAtLength(curLen);
-      const nextPt = path.getPointAtLength(Math.min(totalLen, curLen + 1));
-      const prevPt = path.getPointAtLength(Math.max(0, curLen - 1));
-      const angle = (180 * Math.atan2(nextPt.y - prevPt.y, nextPt.x - prevPt.x)) / Math.PI;
-
-      group.setAttribute('transform', `translate(${pt.x.toFixed(1)} ${pt.y.toFixed(1)}) rotate(${angle.toFixed(1)})`);
-      group.style.opacity = String(Math.min(1, Math.max(0, (latest - 0.05) / 0.1)));
-    });
-
-    return () => unsubscribe();
-  }, [scrollProgress, pathRef]);
-
-  return (
-    <g
-      ref={planeGroupRef}
-      transform="translate(40 250) rotate(-35)"
-      className="transition-opacity duration-300 pointer-events-none"
-    >
-      <g transform="translate(-65 -32) scale(0.65)">
-        {/* Airplane Far Wing */}
-        <path
-          d="M60 20 L80 -10 L100 -10 L92 20 Z"
-          fill="var(--color-toffee-deep)"
-          stroke="#2a170e"
-          strokeWidth="3"
-        />
-        {/* Airplane Fuselage */}
-        <path
-          d="M10 38 C10 18 36 12 70 12 L110 12 C135 12 150 24 150 38 C150 52 135 64 110 64 L70 64 C36 64 10 58 10 38 Z"
-          fill="#fffdf8"
-          stroke="#2a170e"
-          strokeWidth="3.5"
-          strokeLinejoin="round"
-        />
-        {/* Cabin Window with Teacup Pup */}
-        <circle cx="118" cy="38" r="14" fill="#bfddf5" stroke="#2a170e" strokeWidth="2" />
-        <text x="118" y="43" textAnchor="middle" fontSize="16">🐶</text>
-
-        {/* Near Wing */}
-        <path
-          d="M62 48 L44 95 L68 95 L98 48 Z"
-          fill="var(--color-toffee)"
-          stroke="#2a170e"
-          strokeWidth="3"
-        />
-        {/* Tail Fin */}
-        <path
-          d="M18 16 L0 -16 L22 -16 L36 16 Z"
-          fill="var(--color-honey)"
-          stroke="#2a170e"
-          strokeWidth="3"
-        />
-      </g>
-    </g>
   );
 }
