@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { fetchPuppies, fetchHappyFamilies } from '../lib/supabase';
 import TeddyMascot from '../components/TeddyMascot';
 import Flight from '../components/Flight';
+import JourneyChat from '../components/JourneyChat';
 
 export default function Home({ navigate }) {
   const [puppies, setPuppies] = useState([]);
@@ -114,7 +115,9 @@ export default function Home({ navigate }) {
           1. HERO SECTION (tp-hero)
           ========================================================================= */}
       <section 
-        className="tp-hero relative pt-10 pb-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#fffdf8] to-[#fff1d8] overflow-hidden"
+        data-pup-scene="true"
+        data-tone="light"
+        className="tp-scene tp-hero relative pt-10 pb-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#fffdf8] to-[#fff1d8] overflow-hidden"
         aria-labelledby="hero-title"
       >
         <div className="max-w-4xl mx-auto text-center relative z-10">
@@ -218,6 +221,11 @@ export default function Home({ navigate }) {
             </li>
           </ul>
 
+          {/* Peeking Teddy Mascot Stop */}
+          <div data-pup-stop="true" data-pose="peek" data-facing="right" data-act="peekaboo" data-behind="true" data-lane="true" className="pup-stop tp-hero__teddy">
+            <TeddyMascot pose="peek" />
+          </div>
+
           {/* Quilted Blanket Covering Bottom of Arches */}
           <div className="tp-quilt">
             {/* Scalloped Quilt Top Hem Border */}
@@ -241,7 +249,9 @@ export default function Home({ navigate }) {
           2. MEET THE PUPS (tp-meet) WITH 3D DOORS & WOODEN FLOOR
           ========================================================================= */}
       <section 
-        className="tp-meet pt-16 pb-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#fff1d8] to-[#fbe3b4] relative"
+        data-pup-scene="true"
+        data-tone="light"
+        className="tp-scene tp-meet pt-16 pb-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#fff1d8] to-[#fbe3b4] relative"
         aria-labelledby="meet-title"
       >
         <div className="max-w-7xl mx-auto">
@@ -318,7 +328,7 @@ export default function Home({ navigate }) {
 
             {/* Wooden Floor Shelf with Mascot Sitting On It */}
             <div aria-hidden="true" className="tp-meet__floor" />
-            <div className="absolute bottom-2 left-6 sm:left-14 w-28 sm:w-36 z-20 pointer-events-none drop-shadow-md">
+            <div data-pup-stop="true" data-pose="sit" data-facing="right" className="pup-stop tp-meet__teddy">
               <TeddyMascot pose="sit" className="w-full h-auto" />
             </div>
           </div>
@@ -381,7 +391,7 @@ export default function Home({ navigate }) {
             </article>
 
             {/* Mascot Standing in the Center */}
-            <div className="tp-fork__teddy">
+            <div data-pup-stop="true" data-pose="sit" data-facing="right" className="pup-stop tp-fork__teddy">
               <TeddyMascot pose="runner" className="w-full h-auto drop-shadow-md" />
             </div>
 
@@ -416,100 +426,18 @@ export default function Home({ navigate }) {
 
       {/* =========================================================================
           4. YOUR PUPPY JOURNEY & WHATSAPP PHONE (tp-chat)
+      {/* =========================================================================
+          4. YOUR PUPPY JOURNEY & WHATSAPP PHONE (tp-chat with pinned phone)
           ========================================================================= */}
-      <section 
-        className="tp-chat py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#f7d18d] to-[#f0b866] relative"
-        aria-labelledby="journey-title"
-      >
-        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-12">
-          {/* Steps Story */}
-          <div className="flex-1 space-y-8">
-            <div>
-              <p className="font-scrawl text-lg text-toffee font-bold">
-                from first glance to forever
-              </p>
-              <h2 id="journey-title" className="font-plush text-5xl sm:text-6xl font-black text-cocoa mt-1 leading-tight">
-                Your puppy journey
-              </h2>
-            </div>
-
-            <div className="space-y-6">
-              {[
-                { title: 'Choose your breed', desc: 'Browse available puppies or share your dream breed, color, and size with us.' },
-                { title: 'Get photos & details', desc: 'We share videos, vet records, and current weights so you know your pup before day one.' },
-                { title: 'Secure & safe delivery', desc: 'In-cabin flight or personal showroom meet — your puppy arrives safely in your arms.' }
-              ].map((step, idx) => (
-                <div key={idx} className="flex gap-4 items-start">
-                  <span className="font-scrawl text-2xl font-bold text-toffee shrink-0 w-8">
-                    0{idx + 1}
-                  </span>
-                  <div>
-                    <h4 className="font-plush text-xl font-bold text-cocoa">
-                      {step.title}
-                    </h4>
-                    <p className="text-cocoa-soft/90 text-sm mt-0.5 leading-relaxed font-normal">
-                      {step.desc}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* WhatsApp Interactive Phone Mockup */}
-          <div className="w-full max-w-sm rounded-[2.5rem] bg-[#2a170e] p-3 shadow-2xl border-4 border-[#2a170e]">
-            <div className="rounded-[2rem] bg-[#efeae2] overflow-hidden flex flex-col h-[480px]">
-              {/* WhatsApp Header */}
-              <div className="bg-[#075e54] p-4 text-white flex items-center justify-between shadow">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-honey/30 overflow-hidden border border-white/20">
-                    <img src="/brand/logo.png" alt="TeddyPups" className="w-full h-full object-cover" />
-                  </div>
-                  <div>
-                    <h5 className="font-bold text-sm leading-none">TeddyPups UAE</h5>
-                    <span className="text-[10px] text-emerald-200">typically replies in 2 mins</span>
-                  </div>
-                </div>
-                <span className="text-xs bg-emerald-700/80 px-2 py-0.5 rounded-full font-mono">24/7</span>
-              </div>
-
-              {/* Chat Messages */}
-              <div className="p-4 space-y-3 flex-1 overflow-y-auto text-xs font-sans">
-                <div className="bg-white p-3 rounded-2xl rounded-tl-none shadow-xs max-w-[85%] text-cocoa leading-relaxed">
-                  Hello there! 🐾 Are you looking for a teacup puppy to meet in Dubai or an imported breed?
-                  <span className="block text-[9px] text-gray-400 text-right mt-1">10:14 AM</span>
-                </div>
-                <div className="bg-[#dcf8c6] p-3 rounded-2xl rounded-tr-none shadow-xs max-w-[85%] ml-auto text-cocoa leading-relaxed">
-                  Hi! I'd love to visit your showroom this weekend to meet the Maltipoos.
-                  <span className="block text-[9px] text-gray-500 text-right mt-1">10:15 AM ✓✓</span>
-                </div>
-                <div className="bg-white p-3 rounded-2xl rounded-tl-none shadow-xs max-w-[85%] text-cocoa leading-relaxed">
-                  We'd love to host you! What time works best? We have Coco and Milo ready to cuddle. ✨
-                  <span className="block text-[9px] text-gray-400 text-right mt-1">10:16 AM</span>
-                </div>
-              </div>
-
-              {/* Chat CTA Footer */}
-              <div className="p-3 bg-white border-t border-gray-200">
-                <a
-                  href="https://wa.me/971541676733?text=Hi%20TeddyPups!%20I'd%20like%20to%20chat%20about%20adopting%20a%20puppy."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full py-2.5 rounded-full bg-[#25d366] hover:bg-[#20ba5a] text-white font-bold text-center block shadow transition-all cursor-pointer"
-                >
-                  Start WhatsApp Chat
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <JourneyChat navigate={navigate} />
 
       {/* =========================================================================
           5. PUPPY PASSPORT / WHY FAMILIES TRUST TEDDYPUPS (tp-passport)
           ========================================================================= */}
       <section 
-        className="tp-passport px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#f0b866] to-[#a65a30] relative"
+        data-pup-scene="true"
+        data-tone="light"
+        className="tp-scene tp-passport px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#f0b866] to-[#a65a30] relative"
         aria-labelledby="trust-title"
       >
         <div className="max-w-6xl mx-auto">
@@ -523,7 +451,12 @@ export default function Home({ navigate }) {
                   Why families trust TeddyPups
                 </h2>
               </div>
-              <div className="w-36 sm:w-48 mx-auto mt-6">
+              <div 
+                data-pup-stop="true" 
+                data-pose="sit" 
+                data-facing="right" 
+                className="pup-stop tp-book__teddy w-36 sm:w-48 mx-auto mt-6"
+              >
                 <TeddyMascot pose="sit" className="w-full h-auto drop-shadow-sm" />
               </div>
             </div>
@@ -588,7 +521,9 @@ export default function Home({ navigate }) {
           6. HAPPY FAMILIES & PUPPIES (tp-dusk)
           ========================================================================= */}
       <section 
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#a65a30] to-[#4d2b19] text-white relative"
+        data-pup-scene="true"
+        data-tone="dark"
+        className="tp-scene tp-dusk py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#a65a30] to-[#4d2b19] text-white relative"
         aria-labelledby="dusk-title"
       >
         <div className="max-w-6xl mx-auto">
@@ -638,6 +573,11 @@ export default function Home({ navigate }) {
               );
             })}
           </div>
+
+          {/* Dusk Mascot Stop */}
+          <div data-pup-stop="true" data-pose="sit" data-facing="right" className="pup-stop tp-dusk__teddy hidden">
+            <TeddyMascot pose="sit" />
+          </div>
         </div>
       </section>
 
@@ -645,7 +585,9 @@ export default function Home({ navigate }) {
           7. QUESTIONS, ANSWERED (tp-night corkboard)
           ========================================================================= */}
       <section 
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#4d2b19] to-[#2f1a10] text-white relative"
+        data-pup-scene="true"
+        data-tone="dark"
+        className="tp-scene tp-night py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#4d2b19] to-[#2f1a10] text-white relative"
         aria-labelledby="questions-title"
       >
         <div className="max-w-4xl mx-auto">
@@ -656,6 +598,11 @@ export default function Home({ navigate }) {
             <p className="mt-2 text-sm sm:text-base text-white/80 font-normal">
               Everything you need to know about adopting your new family member.
             </p>
+          </div>
+
+          {/* Night Mascot Stop */}
+          <div data-pup-stop="true" data-pose="sit" data-facing="right" data-act="tilt" className="pup-stop tp-night__teddy hidden">
+            <TeddyMascot pose="sit" />
           </div>
 
           <div className="space-y-4">

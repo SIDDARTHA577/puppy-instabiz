@@ -5,6 +5,7 @@ import Curtain from './components/Curtain';
 import PawCursor from './components/PawCursor';
 import PawTrailCanvas from './components/PawTrailCanvas';
 import SmoothScroll from './components/SmoothScroll';
+import PupRunner from './components/PupRunner';
 
 import Home from './pages/Home';
 import Puppies from './pages/Puppies';
@@ -91,6 +92,9 @@ export default function App() {
 
       {/* Custom Paw Cursor */}
       <PawCursor />
+
+      {/* Page-Wide Puppy Mascot Scroll Runner */}
+      {!isAdminPage && (currentPath === '/' || currentPath === '') && <PupRunner />}
 
       {/* Page Curtain Transition */}
       <Curtain active={isTransitioning} />

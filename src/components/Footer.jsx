@@ -17,11 +17,14 @@ export default function Footer({ navigate }) {
     { left: '52%', top: '36%', width: '8px', delay: '2.0s' },
     { left: '63%', top: '15%', width: '10px', delay: '2.4s' },
     { left: '71%', top: '40%', width: '7px', delay: '2.8s' },
-    { left: '92%', top: '33%', width: '8px', delay: '3.2s' },
   ];
 
   return (
-    <footer className="tp-footer relative bg-[#24130b] text-milk overflow-hidden pb-10">
+    <footer 
+      data-pup-scene="true" 
+      data-tone="dark" 
+      className="tp-scene tp-footer relative bg-[#24130b] text-milk overflow-hidden pb-10"
+    >
       {/* Top Rolling Hill Contour from Reference */}
       <svg
         aria-hidden="true"
@@ -81,7 +84,15 @@ export default function Footer({ navigate }) {
               </svg>
 
               {/* Teddy Snug inside */}
-              <div className="absolute inset-0 flex items-center justify-center transform -translate-y-2">
+              <div 
+                data-pup-stop="true" 
+                data-pose="snug" 
+                data-facing="right" 
+                data-act="basket" 
+                data-behind="true" 
+                data-lane="true"
+                className="pup-stop tp-basket__pup absolute inset-0 flex items-center justify-center transform -translate-y-2"
+              >
                 <TeddyMascot pose="snug" className="w-52 h-auto" />
               </div>
 
