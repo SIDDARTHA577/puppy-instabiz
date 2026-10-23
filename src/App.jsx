@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Curtain from './components/Curtain';
-import PawCursor from './components/PawCursor';
 import PawTrailCanvas from './components/PawTrailCanvas';
 import SmoothScroll from './components/SmoothScroll';
 import PupRunner from './components/PupRunner';
@@ -89,9 +88,6 @@ export default function App() {
 
       {/* Global Interactive Mouse Trail Canvas */}
       <PawTrailCanvas />
-
-      {/* Custom Paw Cursor */}
-      <PawCursor />
 
       {/* Page-Wide Puppy Mascot Scroll Runner */}
       {!isAdminPage && (currentPath === '/' || currentPath === '') && <PupRunner />}

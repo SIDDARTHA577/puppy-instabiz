@@ -43,7 +43,7 @@ const SEATS = [
     w: '10.6rem',
     peek: 0.82,
     tilt: -3,
-    name: 'Toy Poodle',
+    name: 'Maltipoo',
     slug: 'toy-poodle-male-female',
     img: 'https://puppy.instabizweb.com/_next/image?url=%2Fmedia%2FvMu0BPvkAZ-j%2Fc65e53967d%2Fb942a5_0b2c0c0d178c4005acbe28725a5ea573-mv2.jpg&w=3840&q=75',
   },
@@ -58,10 +58,19 @@ const SEATS = [
   },
 ];
 
+const CUTE_SAYINGS = ['woof!', 'wheee!', 'boing!', 'I like you!', 'achoo!', 'yip!'];
+
 export default function HeroLineup({ navigate }) {
   const [hovered, setHovered] = useState(null);
-  const [autoTag, setAutoTag] = useState(1); // default active like in reference
+  const [autoTag, setAutoTag] = useState(4); // default active on Maltipoo arch like in user screenshot
   const [pupStates, setPupStates] = useState({});
+  const [teddyState, setTeddyState] = useState({
+    duck: false,
+    jolt: false,
+    bubble: false,
+    bubbleText: 'peekaboo!',
+  });
+  const [hearts, setHearts] = useState([]);
   const timerRef = useRef([]);
 
   const addTimeout = (fn, delay) => {
@@ -71,6 +80,30 @@ export default function HeroLineup({ navigate }) {
   };
 
   useEffect(() => {
+    // Initial mascot peekaboo entrance on homepage load
+    addTimeout(() => {
+      setTeddyState((prev) => ({ ...prev, duck: true }));
+    }, 120);
+
+    addTimeout(() => {
+      setTeddyState((prev) => ({
+        ...prev,
+        duck: false,
+        jolt: true,
+        bubble: true,
+        bubbleText: 'peekaboo!',
+      }));
+    }, 550);
+
+    addTimeout(() => {
+      setTeddyState((prev) => ({ ...prev, jolt: false }));
+    }, 1100);
+
+    addTimeout(() => {
+      setTeddyState((prev) => ({ ...prev, bubble: false }));
+    }, 2500);
+
+    // Arch lineup peekaboo sequence
     let seatQueue = [1, 3, 0, 4, 2, 5];
     let queueIdx = 0;
 
@@ -109,6 +142,36 @@ export default function HeroLineup({ navigate }) {
       timerRef.current = [];
     };
   }, []);
+
+  const handleTeddyClick = (e) => {
+    e.stopPropagation();
+    const randSaying = CUTE_SAYINGS[Math.floor(Math.random() * CUTE_SAYINGS.length)];
+    setTeddyState({
+      duck: false,
+      jolt: true,
+      bubble: true,
+      bubbleText: randSaying,
+    });
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    setHearts((prev) => [
+      ...prev.slice(-3),
+      {
+        id: Date.now() + Math.random(),
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+        icon: Math.random() > 0.5 ? '❤️' : '🐾',
+      },
+    ]);
+
+    addTimeout(() => {
+      setTeddyState((prev) => ({ ...prev, jolt: false }));
+    }, 450);
+
+    addTimeout(() => {
+      setTeddyState((prev) => ({ ...prev, bubble: false }));
+    }, 2000);
+  };
 
   return (
     <div className="tp-hero__stage">
@@ -187,9 +250,44 @@ export default function HeroLineup({ navigate }) {
         data-act="peekaboo"
         data-behind="true"
         data-lane="true"
-        className="pup-stop tp-hero__teddy"
+        onClick={handleTeddyClick}
+        className="pup-stop tp-hero__teddy cursor-pointer select-none"
       >
-        <TeddyMascot pose="peek" />
+        <div
+          className={`pup-buddy relative transition-transform duration-300 ease-out ${
+            teddyState.duck
+              ? 'translate-y-3 scale-95 opacity-80'
+              : teddyState.jolt
+              ? '-translate-y-2 scale-105 opacity-100'
+              : 'translate-y-0 scale-100 opacity-100'
+          }`}
+          data-facing="right"
+        >
+          <TeddyMascot pose="peek" />
+
+          {/* Floating Interactive Hearts on Click */}
+          {hearts.map((h) => (
+            <span
+              key={h.id}
+              className="pup-heart animate-float-fade"
+              style={{
+                left: `${h.x}px`,
+                top: `${h.y}px`,
+              }}
+            >
+              {h.icon}
+            </span>
+          ))}
+
+          {/* Interactive Mascot Speech Bubble */}
+          <span
+            aria-hidden="true"
+            className="pup-bubble font-scrawl font-bold"
+            data-show={teddyState.bubble ? 'true' : 'false'}
+          >
+            {teddyState.bubbleText}
+          </span>
+        </div>
       </div>
 
       {/* 4. Quilted Blanket Covering Bottom of Arches */}

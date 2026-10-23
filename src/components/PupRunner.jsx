@@ -93,8 +93,6 @@ export default function PupRunner() {
   };
 
   useEffect(() => {
-    document.documentElement.dataset.pup = 'live';
-
     const updateStops = () => {
       stopsRef.current = measureStops();
     };
@@ -102,10 +100,30 @@ export default function PupRunner() {
     updateStops();
 
     const onScroll = () => {
-      const stops = stopsRef.current;
-      if (!stops || stops.length === 0) return;
-
       const currentScroll = window.scrollY;
+      const isNearTop = currentScroll <= 15;
+
+      // When at the very top of the homepage, let HeroLineup's static mascot render natively
+      if (isNearTop) {
+        if (document.documentElement.dataset.pup) {
+          delete document.documentElement.dataset.pup;
+        }
+        setActorState((prev) => (prev.visible ? { ...prev, visible: false } : prev));
+        lastScrollY.current = currentScroll;
+        return;
+      }
+
+      // Past the top hero stop: runner takes over
+      if (document.documentElement.dataset.pup !== 'live') {
+        document.documentElement.dataset.pup = 'live';
+      }
+
+      const stops = stopsRef.current;
+      if (!stops || stops.length === 0) {
+        updateStops();
+        return;
+      }
+
       const isMoving = Math.abs(currentScroll - lastScrollY.current) > 2;
       lastScrollY.current = currentScroll;
 
@@ -199,10 +217,13 @@ export default function PupRunner() {
     }, { passive: true });
 
     // Initial measurement
+    updateStops();
+    onScroll();
+
     const t1 = setTimeout(() => {
       updateStops();
       onScroll();
-    }, 150);
+    }, 200);
 
     const t2 = setTimeout(() => {
       updateStops();
