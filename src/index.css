@@ -2221,12 +2221,12 @@ html[data-pup] .pup-stop > * {
 }
 
 .tp-lineup__seat {
-  --h0: calc(var(--w) * var(--seat-k, 1) * 1.25);
+  --h0: calc(var(--w, 9.4rem) * var(--seat-k, 1) * 1.25);
   --h: calc(var(--h0) + var(--rise, 0px));
-  left: var(--x);
-  bottom: calc(var(--quilt-h) - (1 - var(--peek)) * var(--h0));
-  width: calc(var(--w) * var(--seat-k, 1));
-  transform: translateX(-50%) rotate(var(--tilt));
+  left: var(--x, 50%);
+  bottom: calc(var(--quilt-h, 6rem) - (1 - var(--peek, 0.74)) * var(--h0));
+  width: calc(var(--w, 9.4rem) * var(--seat-k, 1));
+  transform: translateX(-50%) rotate(var(--tilt, 0deg));
   position: absolute;
 }
 

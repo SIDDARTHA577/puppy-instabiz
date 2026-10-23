@@ -174,7 +174,14 @@ export default function HeroLineup({ navigate }) {
   };
 
   return (
-    <div className="tp-hero__stage">
+    <div 
+      className="tp-hero__stage"
+      style={{
+        '--quilt-h': 'clamp(4.5rem, 12vh, 8rem)',
+        '--tw': 'clamp(15rem, min(30vw, 46vh), 27rem)',
+        '--rise': 'clamp(.75rem, 2.4vh, 1.75rem)',
+      }}
+    >
       {/* 1. Puppy Photo Arches */}
       <ul className="tp-lineup" aria-label="Some of the puppies in our showroom">
         {SEATS.map((seat, i) => (
@@ -182,6 +189,10 @@ export default function HeroLineup({ navigate }) {
             key={i}
             className="tp-lineup__seat"
             style={{
+              left: seat.x,
+              width: seat.w,
+              bottom: `calc(var(--quilt-h, 6rem) - (1 - ${seat.peek}) * (${seat.w} * 1.25))`,
+              transform: `translateX(-50%) rotate(${seat.tilt}deg)`,
               '--x': seat.x,
               '--w': seat.w,
               '--peek': seat.peek,
@@ -204,7 +215,12 @@ export default function HeroLineup({ navigate }) {
               onFocus={() => setHovered(i)}
               onBlur={() => setHovered((h) => (h === i ? null : h))}
             >
-              <span className="tp-lineup__photo">
+              <span 
+                className="tp-lineup__photo"
+                style={{
+                  height: `calc(${seat.w} * 1.25 + var(--rise, 0px))`,
+                }}
+              >
                 <img
                   src={seat.img}
                   alt={seat.name}
@@ -227,6 +243,10 @@ export default function HeroLineup({ navigate }) {
               key={i}
               className="tp-lineup__seat"
               style={{
+                left: seat.x,
+                width: seat.w,
+                bottom: `calc(var(--quilt-h, 6rem) - (1 - ${seat.peek}) * (${seat.w} * 1.25))`,
+                transform: `translateX(-50%) rotate(${seat.tilt}deg)`,
                 '--x': seat.x,
                 '--w': seat.w,
                 '--peek': seat.peek,
@@ -234,7 +254,13 @@ export default function HeroLineup({ navigate }) {
                 '--i': i,
               }}
             >
-              <span className="tp-lineup__ghost" data-tag={isShow ? 'show' : undefined}>
+              <span 
+                className="tp-lineup__ghost" 
+                data-tag={isShow ? 'show' : undefined}
+                style={{
+                  height: `calc(${seat.w} * 1.25 + var(--rise, 0px))`,
+                }}
+              >
                 <span className="tp-lineup__name font-scrawl font-bold">{seat.name}</span>
               </span>
             </li>
@@ -251,6 +277,11 @@ export default function HeroLineup({ navigate }) {
         data-behind="true"
         data-lane="true"
         onClick={handleTeddyClick}
+        style={{
+          left: 'calc(50% - var(--tw, 20rem) * .7067)',
+          bottom: 'calc(var(--quilt-h, 6rem) + 30px - var(--tw, 20rem) * .2733)',
+          width: 'var(--tw, 20rem)',
+        }}
         className="pup-stop tp-hero__teddy cursor-pointer select-none"
       >
         <div
