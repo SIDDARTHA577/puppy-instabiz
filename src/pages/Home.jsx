@@ -4,11 +4,11 @@ import { fetchPuppies, fetchHappyFamilies } from '../lib/supabase';
 import TeddyMascot from '../components/TeddyMascot';
 import Flight from '../components/Flight';
 import JourneyChat from '../components/JourneyChat';
+import MeetSection from '../components/MeetSection';
 
 export default function Home({ navigate }) {
   const [puppies, setPuppies] = useState([]);
   const [polaroids, setPolaroids] = useState([]);
-  const [openDoors, setOpenDoors] = useState({ 0: true, 1: true, 2: false, 3: false });
   const [openFaq, setOpenFaq] = useState(0);
 
   useEffect(() => {
@@ -20,10 +20,6 @@ export default function Home({ navigate }) {
     }
     loadData();
   }, []);
-
-  const toggleDoor = (idx) => {
-    setOpenDoors(prev => ({ ...prev, [idx]: !prev[idx] }));
-  };
 
   const getPup = (slug) => puppies.find(p => p.slug === slug);
   const pupMax = getPup('maltipoo-max-male');
@@ -76,37 +72,6 @@ export default function Home({ navigate }) {
       slug: 'maltipoo-female-2',
       tag: 'Maltipoo'
     },
-  ];
-
-  const doorItems = [
-    {
-      name: 'Max',
-      meta: 'Maltipoo, boy, 3 months, with video',
-      img: pupMax?.cover_image || 'https://puppy.instabizweb.com/_next/image?url=%2Fmedia%2FZ0ToauDx7Eve%2F5fffe4d022%2Fb942a5_4b8cfb8204d24eadaf524332aba1dc15-mv2.webp&w=3840&q=75',
-      slug: 'maltipoo-max-male',
-      color: '#a24a1a'
-    },
-    {
-      name: 'Korean Teacup Maltipoo',
-      meta: 'girl, 2 months, with video',
-      img: pupMaltipoo?.cover_image || 'https://puppy.instabizweb.com/_next/image?url=%2Fmedia%2FgAaGwoGej2g6%2F5523e884dd%2Fb942a5_50f0ae67c9ff437d911597d52a9e63b3-mv2.jpg&w=3840&q=75',
-      slug: 'korean-teacup-maltipoo-female',
-      color: '#5a3a28'
-    },
-    {
-      name: 'Korean Teacup Poodle',
-      meta: 'girl, 2 months',
-      img: pupPoodle?.cover_image || 'https://puppy.instabizweb.com/_next/image?url=%2Fmedia%2FxeMJCapr5vcU%2Fe618c653b2%2Fb942a5_14376a216177484dbbb27995d0f6aeb7-mv2.jpg&w=3840&q=75',
-      slug: 'korean-teacup-poodle-female',
-      color: '#d4893f'
-    },
-    {
-      name: 'Maltipoo & Cavapoo',
-      meta: 'boy, 3 months Maltipoo & 2 months Cavapoo, with video',
-      img: pupCavapoo?.cover_image || 'https://puppy.instabizweb.com/_next/image?url=%2Fmedia%2FYQhey4j7uWvZ%2F3ea10db6c1%2Fb942a5_7ce7e7bd18424b6c8fb16dd30113ade2-mv2.jpg&w=3840&q=75',
-      slug: 'maltipoo-cavapoo-male',
-      color: '#b8644a'
-    }
   ];
 
   return (
@@ -246,94 +211,10 @@ export default function Home({ navigate }) {
       </section>
 
       {/* =========================================================================
-          2. MEET THE PUPS (tp-meet) WITH 3D DOORS & WOODEN FLOOR
+          2. MEET THE PUPS (tp-meet) WITH 3D DOORS & WOODEN FLOOR TREADMILL
           ========================================================================= */}
-      <section 
-        data-pup-scene="true"
-        data-tone="light"
-        className="tp-scene tp-meet pt-16 pb-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#fff1d8] to-[#fbe3b4] relative"
-        aria-labelledby="meet-title"
-      >
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-8">
-            <div>
-              <h2 id="meet-title" className="font-plush text-5xl sm:text-6xl md:text-7xl font-black text-cocoa leading-tight">
-                Meet the pups
-              </h2>
-              <p className="mt-2 text-base sm:text-lg text-cocoa-soft/85 max-w-md font-medium">
-                Real puppies, real photos, looking for their families right now.
-              </p>
-            </div>
-            <button
-              onClick={() => navigate('/puppies')}
-              className="px-7 py-3.5 rounded-full bg-[#8a421d] hover:bg-[#743515] text-white font-bold text-sm shadow-[0_3px_0_#52230d] transition-all transform hover:-translate-y-0.5 active:translate-y-0.5 cursor-pointer"
-            >
-              See all available puppies
-            </button>
-          </div>
+      <MeetSection navigate={navigate} />
 
-          {/* Hall of Nursery Doors with Mascot on Floor */}
-          <div className="tp-meet__hall">
-            <ol className="tp-meet__track">
-              {doorItems.map((pup, idx) => {
-                const isOpen = openDoors[idx];
-
-                return (
-                  <li 
-                    key={idx} 
-                    className="tp-door"
-                    data-open={isOpen ? 'true' : 'false'}
-                  >
-                    <div 
-                      className="tp-door__link"
-                      onClick={() => toggleDoor(idx)}
-                    >
-                      {/* Door Plate: Name & Metadata ABOVE the door */}
-                      <span className="tp-door__plate">
-                        <span className="font-plush tp-door__name">
-                          {pup.name}
-                        </span>
-                        <span className="tp-door__meta">
-                          {pup.meta}
-                        </span>
-                      </span>
-
-                      {/* Arch Door Frame */}
-                      <span className="tp-door__frame" style={{ '--door': pup.color }}>
-                        {/* Puppy Room Image behind leaf */}
-                        <span className="tp-door__room">
-                          <img src={pup.img} alt={pup.name} />
-                        </span>
-
-                        {/* Door Way with 3D Leaf */}
-                        <span aria-hidden="true" className="tp-door__way">
-                          <span className="tp-door__leaf">
-                            {/* Paw Peephole SVG */}
-                            <svg viewBox="0 0 64 64" className="tp-door__peephole fill-current" aria-hidden="true">
-                              <path d="M32 30.5c-7.6 0-15.6 8.3-15.6 15.5 0 5.4 4.2 8.3 9.2 8.3 2.6 0 4.5-1.1 6.4-1.1s3.8 1.1 6.4 1.1c5 0 9.2-2.9 9.2-8.3 0-7.2-8-15.5-15.6-15.5zM19.28 26.71C21.07 30.08 20.42 33.92 17.84 35.29C15.25 36.67 11.71 35.05 9.92 31.69C8.13 28.32 8.78 24.48 11.36 23.11C13.95 21.73 17.49 23.35 19.28 26.71ZM29.62 15.64C30.32 19.62 28.46 23.26 25.47 23.79C22.48 24.32 19.48 21.53 18.78 17.56C18.08 13.58 19.94 9.94 22.93 9.41C25.92 8.88 28.92 11.67 29.62 15.64ZM45.22 17.56C44.52 21.53 41.52 24.32 38.53 23.79C35.54 23.26 33.68 19.62 34.38 15.64C35.08 11.67 38.08 8.88 41.07 9.41C44.06 9.94 45.92 13.58 45.22 17.56ZM54.08 31.69C52.29 35.05 48.75 36.67 46.16 35.29C43.58 33.92 42.93 30.08 44.72 26.71C46.51 23.35 50.05 21.73 52.64 23.11C55.22 24.48 55.87 28.32 54.08 31.69Z" />
-                            </svg>
-                            {/* Brass Doorknob */}
-                            <span className="tp-door__knob" />
-                          </span>
-                        </span>
-
-                        {/* Available Tag Sticker */}
-                        <span className="tp-door__tag">Available</span>
-                      </span>
-                    </div>
-                  </li>
-                );
-              })}
-            </ol>
-
-            {/* Wooden Floor Shelf with Mascot Sitting On It */}
-            <div aria-hidden="true" className="tp-meet__floor" />
-            <div data-pup-stop="true" data-pose="sit" data-facing="right" className="pup-stop tp-meet__teddy">
-              <TeddyMascot pose="sit" className="w-full h-auto" />
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* =========================================================================
           3. TWO WAYS TO MEET YOUR PUPPY (tp-paths with Signpost & Mascot)
