@@ -31,7 +31,7 @@ export default function Home({ navigate }) {
   const pupMaltipoo2 = getPup('maltipoo-female-2');
 
   return (
-    <div className="min-h-screen bg-milk pt-20 select-none relative">
+    <div className="min-h-screen bg-milk select-none relative">
       {/* =========================================================================
           1. HERO SECTION (tp-hero)
           ========================================================================= */}

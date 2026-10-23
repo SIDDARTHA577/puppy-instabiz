@@ -189,10 +189,6 @@ export default function HeroLineup({ navigate }) {
             key={i}
             className="tp-lineup__seat"
             style={{
-              left: seat.x,
-              width: seat.w,
-              bottom: `calc(var(--quilt-h, 6rem) - (1 - ${seat.peek}) * (${seat.w} * 1.25))`,
-              transform: `translateX(-50%) rotate(${seat.tilt}deg)`,
               '--x': seat.x,
               '--w': seat.w,
               '--peek': seat.peek,
@@ -215,12 +211,7 @@ export default function HeroLineup({ navigate }) {
               onFocus={() => setHovered(i)}
               onBlur={() => setHovered((h) => (h === i ? null : h))}
             >
-              <span 
-                className="tp-lineup__photo"
-                style={{
-                  height: `calc(${seat.w} * 1.25 + var(--rise, 0px))`,
-                }}
-              >
+              <span className="tp-lineup__photo">
                 <img
                   src={seat.img}
                   alt={seat.name}
@@ -243,10 +234,6 @@ export default function HeroLineup({ navigate }) {
               key={i}
               className="tp-lineup__seat"
               style={{
-                left: seat.x,
-                width: seat.w,
-                bottom: `calc(var(--quilt-h, 6rem) - (1 - ${seat.peek}) * (${seat.w} * 1.25))`,
-                transform: `translateX(-50%) rotate(${seat.tilt}deg)`,
                 '--x': seat.x,
                 '--w': seat.w,
                 '--peek': seat.peek,
@@ -257,9 +244,6 @@ export default function HeroLineup({ navigate }) {
               <span 
                 className="tp-lineup__ghost" 
                 data-tag={isShow ? 'show' : undefined}
-                style={{
-                  height: `calc(${seat.w} * 1.25 + var(--rise, 0px))`,
-                }}
               >
                 <span className="tp-lineup__name font-scrawl font-bold">{seat.name}</span>
               </span>
@@ -322,32 +306,17 @@ export default function HeroLineup({ navigate }) {
       </div>
 
       {/* 4. Quilted Blanket Covering Bottom of Arches */}
-      <div className="tp-quilt">
-        {/* Scalloped Hem Top Border */}
-        <svg
-          viewBox="0 0 1200 24"
-          preserveAspectRatio="none"
-          className="tp-quilt__edge w-full h-6 text-[#fcf1dd] fill-current"
-          style={{ position: 'absolute', top: '-23px', left: 0 }}
-        >
+      <div aria-hidden="true" className="tp-quilt">
+        <svg className="tp-quilt__edge" width="100%" height="40" preserveAspectRatio="none">
           <defs>
-            <pattern id="quilt-scallop-pat" width="48" height="24" patternUnits="userSpaceOnUse">
-              <path d="M0 24C12 24 16 0 24 0C32 0 36 24 48 24Z" fill="#fcf1dd" />
-              <path
-                d="M0 24C12 24 16 0 24 0C32 0 36 24 48 24"
-                fill="none"
-                stroke="#2a170e"
-                strokeWidth="2.5"
-                strokeDasharray="3 3"
-                opacity="0.25"
-              />
+            <pattern id="tp-scallop" width="76" height="40" patternUnits="userSpaceOnUse">
+              <path d="M0 40V27A38 25 0 0 1 76 27V40Z" style={{ fill: 'var(--quilt, #fff1d8)' }} />
+              <path d="M0 27A38 25 0 0 1 76 27" fill="none" stroke="#2a170e" strokeWidth="3" />
+              <path d="M11 33A27 19 0 0 1 65 33" fill="none" stroke="#2a170e" strokeWidth="1.6" strokeDasharray="3.5 5.5" strokeLinecap="round" opacity=".42" />
             </pattern>
           </defs>
-          <rect width="100%" height="24" fill="url(#quilt-scallop-pat)" />
+          <rect width="100%" height="40" fill="url(#tp-scallop)" />
         </svg>
-
-        {/* Diamond Weave Quilt Body */}
-        <div className="tp-quilt__body w-full h-full" />
       </div>
     </div>
   );
