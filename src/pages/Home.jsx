@@ -38,13 +38,18 @@ export default function Home({ navigate }) {
       <section 
         data-pup-scene="true"
         data-tone="light"
-        className="tp-scene tp-hero relative pt-10 pb-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#fffdf8] to-[#fff1d8] overflow-hidden"
+        className="tp-scene tp-hero"
+        style={{
+          '--sky-top': '#fffdf8',
+          '--sky-bottom': '#fff1d8',
+          '--quilt': '#fff1d8',
+        }}
         aria-labelledby="hero-title"
       >
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          {/* Note with Squiggle Underline SVG */}
-          <div className="inline-block relative mb-4">
-            <p className="font-scrawl text-xl sm:text-2xl text-toffee font-bold tracking-wide">
+        <span aria-hidden="true" className="tp-hero__sun" />
+        <div className="tp-hero__copy gutter">
+          <div className="inline-block relative">
+            <p className="tp-hero__note font-scrawl font-bold">
               every puppy is family
             </p>
             <svg viewBox="0 0 220 24" preserveAspectRatio="none" className="absolute -bottom-2 left-0 h-2.5 w-full text-toffee" aria-hidden="true">
@@ -52,19 +57,19 @@ export default function Home({ navigate }) {
             </svg>
           </div>
 
-          <h1 id="hero-title" className="font-plush text-5xl sm:text-7xl md:text-8xl font-black text-cocoa tracking-tight leading-[1.05] mt-3">
-            <span className="block">Premium teacup</span>
-            <span className="block">puppies in Dubai</span>
+          <h1 id="hero-title" className="tp-hero__title font-plush">
+            <span className="tp-hero__line">Premium teacup</span>
+            <span className="tp-hero__line tp-hero__line--2">puppies in Dubai</span>
           </h1>
 
-          <p className="mt-6 text-base sm:text-xl text-cocoa-soft/90 max-w-2xl mx-auto leading-relaxed font-normal">
+          <p className="tp-hero__lede">
             Meet your new best friend in our Dubai showroom, or order a rare miniature breed from trusted breeders worldwide.
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <div className="tp-hero__actions">
             <button
               onClick={() => navigate('/puppies')}
-              className="px-8 py-4 rounded-full bg-[#8a421d] hover:bg-[#743515] text-white font-bold text-base border-2 border-[#52230d] shadow-[0_4px_0_#52230d] transition-all transform hover:-translate-y-0.5 active:translate-y-1 active:shadow-none cursor-pointer"
+              className="btn btn-primary"
             >
               View available puppies
             </button>
@@ -72,7 +77,7 @@ export default function Home({ navigate }) {
               href="https://wa.me/971541676733?text=Hi%20TeddyPups!%20I'd%20love%20to%20know%20more%20about%20your%20puppies."
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-4 rounded-full bg-[#fff8ea] hover:bg-honey/20 border-2 border-cocoa text-cocoa font-bold text-base shadow-[0_2px_0_#2a170e] transition-all transform hover:-translate-y-0.5 active:translate-y-0.5 cursor-pointer"
+              className="btn btn-ghost"
             >
               Enquire on WhatsApp
             </a>
