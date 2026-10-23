@@ -85,7 +85,7 @@ export default function TeddyMascot({ pose = 'sit', className = '', style = {} }
   if (pose === 'peek') {
     return (
       <svg 
-        viewBox="0 0 300 170" 
+        viewBox="0 0 300 240" 
         className={`tp-teddy-peek ${className}`} 
         aria-hidden="true" 
         style={{ overflow: 'visible', ...style }}
