@@ -5,6 +5,7 @@ import TeddyMascot from '../components/TeddyMascot';
 import Flight from '../components/Flight';
 import JourneyChat from '../components/JourneyChat';
 import MeetSection from '../components/MeetSection';
+import HeroLineup from '../components/HeroLineup';
 
 export default function Home({ navigate }) {
   const [puppies, setPuppies] = useState([]);
@@ -29,53 +30,8 @@ export default function Home({ navigate }) {
   const pupToyPoodle = getPup('toy-poodle-male-female');
   const pupMaltipoo2 = getPup('maltipoo-female-2');
 
-  const heroLineupPups = [
-    {
-      name: 'Max',
-      breed: 'Maltipoo',
-      img: pupMax?.cover_image || 'https://puppy.instabizweb.com/_next/image?url=%2Fmedia%2FZ0ToauDx7Eve%2F5fffe4d022%2Fb942a5_4b8cfb8204d24eadaf524332aba1dc15-mv2.webp&w=3840&q=75',
-      slug: 'maltipoo-max-male',
-      tag: 'Max'
-    },
-    {
-      name: 'Korean Teacup Maltipoo',
-      breed: 'Maltipoo',
-      img: pupMaltipoo?.cover_image || 'https://puppy.instabizweb.com/_next/image?url=%2Fmedia%2FgAaGwoGej2g6%2F5523e884dd%2Fb942a5_50f0ae67c9ff437d911597d52a9e63b3-mv2.jpg&w=3840&q=75',
-      slug: 'korean-teacup-maltipoo-female',
-      tag: 'Korean Teacup Maltipoo'
-    },
-    {
-      name: 'Korean Teacup Poodle',
-      breed: 'Poodle',
-      img: pupPoodle?.cover_image || 'https://puppy.instabizweb.com/_next/image?url=%2Fmedia%2FxeMJCapr5vcU%2Fe618c653b2%2Fb942a5_14376a216177484dbbb27995d0f6aeb7-mv2.jpg&w=3840&q=75',
-      slug: 'korean-teacup-poodle-female',
-      tag: 'Korean Teacup Poodle'
-    },
-    {
-      name: 'Maltipoo & Cavapoo',
-      breed: 'Cavapoo',
-      img: pupCavapoo?.cover_image || 'https://puppy.instabizweb.com/_next/image?url=%2Fmedia%2FYQhey4j7uWvZ%2F3ea10db6c1%2Fb942a5_7ce7e7bd18424b6c8fb16dd30113ade2-mv2.jpg&w=3840&q=75',
-      slug: 'maltipoo-cavapoo-male',
-      tag: 'Maltipoo & Cavapoo'
-    },
-    {
-      name: 'Toy Poodle',
-      breed: 'Poodle',
-      img: pupToyPoodle?.cover_image || 'https://puppy.instabizweb.com/_next/image?url=%2Fmedia%2FvMu0BPvkAZ-j%2Fc65e53967d%2Fb942a5_0b2c0c0d178c4005acbe28725a5ea573-mv2.jpg&w=3840&q=75',
-      slug: 'toy-poodle-male-female',
-      tag: 'Toy Poodle'
-    },
-    {
-      name: 'Maltipoo',
-      breed: 'Maltipoo',
-      img: pupMaltipoo2?.cover_image || 'https://puppy.instabizweb.com/_next/image?url=%2Fmedia%2F3WJNmn6VVgVu%2F732f779474%2Fb942a5_2b5dcece361b4589890ae920c66a1b70-mv2.jpg&w=3840&q=75',
-      slug: 'maltipoo-female-2',
-      tag: 'Maltipoo'
-    },
-  ];
-
   return (
-    <div className="min-h-screen bg-milk overflow-x-hidden pt-20 select-none">
+    <div className="min-h-screen bg-milk pt-20 select-none relative">
       {/* =========================================================================
           1. HERO SECTION (tp-hero)
           ========================================================================= */}
@@ -123,91 +79,8 @@ export default function Home({ navigate }) {
           </div>
         </div>
 
-        {/* Hero Lineup Stage: 6 Arches with Center Mascot Peeking Over Quilt */}
-        <div className="tp-hero__stage">
-          {/* Floating Sticker Pill */}
-          <div className="text-right max-w-4xl mx-auto pr-8 -mb-4 relative z-20">
-            <span className="inline-block font-scrawl text-sm font-bold px-4 py-1.5 rounded-full bg-white border-2 border-cocoa text-cocoa shadow-sm transform rotate-2">
-              Korean Teacup Maltipoo
-            </span>
-          </div>
-
-          <ul className="tp-lineup">
-            {/* Arch 1 */}
-            <li className="tp-lineup__seat" onClick={() => navigate(`/puppies/${heroLineupPups[0].slug}`)}>
-              <span className="tp-lineup__photo w-20 sm:w-28 md:w-36 h-28 sm:h-38 md:h-46">
-                <img src={heroLineupPups[0].img} alt="" className="w-full h-full object-cover" />
-              </span>
-            </li>
-
-            {/* Arch 2 */}
-            <li className="tp-lineup__seat" onClick={() => navigate(`/puppies/${heroLineupPups[1].slug}`)}>
-              <span className="tp-lineup__photo w-20 sm:w-28 md:w-36 h-32 sm:h-42 md:h-52">
-                <img src={heroLineupPups[1].img} alt="" className="w-full h-full object-cover" />
-              </span>
-            </li>
-
-            {/* Arch 3 with "Max" Tag on top */}
-            <li className="tp-lineup__seat relative" onClick={() => navigate(`/puppies/${heroLineupPups[0].slug}`)}>
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 font-scrawl text-xs font-bold px-3 py-0.5 rounded-full bg-white border border-cocoa text-cocoa shadow-xs z-20">
-                Max
-              </span>
-              <span className="tp-lineup__photo w-24 sm:w-32 md:w-42 h-36 sm:h-48 md:h-60">
-                <img src={heroLineupPups[0].img} alt="" className="w-full h-full object-cover" />
-              </span>
-            </li>
-
-            {/* CENTER ARCH: Teddy Cartoon Mascot Peeking Over the Quilt */}
-            <li className="tp-lineup__seat z-20 -mx-2 sm:-mx-4 flex flex-col items-center">
-              <div className="w-32 sm:w-44 md:w-56 drop-shadow-lg transform translate-y-3">
-                <TeddyMascot pose="peek" className="w-full h-auto" />
-              </div>
-            </li>
-
-            {/* Arch 4 */}
-            <li className="tp-lineup__seat" onClick={() => navigate(`/puppies/${heroLineupPups[2].slug}`)}>
-              <span className="tp-lineup__photo w-24 sm:w-32 md:w-42 h-36 sm:h-48 md:h-60">
-                <img src={heroLineupPups[2].img} alt="" className="w-full h-full object-cover" />
-              </span>
-            </li>
-
-            {/* Arch 5 */}
-            <li className="tp-lineup__seat" onClick={() => navigate(`/puppies/${heroLineupPups[3].slug}`)}>
-              <span className="tp-lineup__photo w-20 sm:w-28 md:w-36 h-32 sm:h-42 md:h-52">
-                <img src={heroLineupPups[3].img} alt="" className="w-full h-full object-cover" />
-              </span>
-            </li>
-
-            {/* Arch 6 */}
-            <li className="tp-lineup__seat" onClick={() => navigate(`/puppies/${heroLineupPups[4].slug}`)}>
-              <span className="tp-lineup__photo w-20 sm:w-28 md:w-36 h-28 sm:h-38 md:h-46">
-                <img src={heroLineupPups[4].img} alt="" className="w-full h-full object-cover" />
-              </span>
-            </li>
-          </ul>
-
-          {/* Peeking Teddy Mascot Stop */}
-          <div data-pup-stop="true" data-pose="peek" data-facing="right" data-act="peekaboo" data-behind="true" data-lane="true" className="pup-stop tp-hero__teddy">
-            <TeddyMascot pose="peek" />
-          </div>
-
-          {/* Quilted Blanket Covering Bottom of Arches */}
-          <div className="tp-quilt">
-            {/* Scalloped Quilt Top Hem Border */}
-            <svg viewBox="0 0 1200 24" preserveAspectRatio="none" className="tp-quilt__scallop text-[#fcf1dd] fill-current">
-              <defs>
-                <pattern id="quilt-scallop-pat" width="48" height="24" patternUnits="userSpaceOnUse">
-                  <path d="M0 24C12 24 16 0 24 0C32 0 36 24 48 24Z" fill="#fcf1dd" />
-                  <path d="M0 24C12 24 16 0 24 0C32 0 36 24 48 24" fill="none" stroke="#2a170e" strokeWidth="2.5" strokeDasharray="3 3" opacity="0.25" />
-                </pattern>
-              </defs>
-              <rect width="100%" height="24" fill="url(#quilt-scallop-pat)" />
-            </svg>
-
-            {/* Diamond Quilted Blanket Surface */}
-            <div className="tp-quilt__body" />
-          </div>
-        </div>
+        {/* Hero Lineup Stage: 6 Arches with Duck/Pop Animations & Breed Tag Bubbles */}
+        <HeroLineup navigate={navigate} />
       </section>
 
       {/* =========================================================================
@@ -220,8 +93,10 @@ export default function Home({ navigate }) {
           3. TWO WAYS TO MEET YOUR PUPPY (tp-paths with Signpost & Mascot)
           ========================================================================= */}
       <section 
-        className="tp-scene tp-paths py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#fbe3b4] to-[#f7d18d] relative"
-        style={{ "--sky-top": "#fbe3b4", "--sky-bottom": "#f7d18d" }}
+        data-pup-scene="true"
+        data-tone="light"
+        className="tp-scene tp-paths relative"
+        style={{ "--sky-top": "#fbe3b4", "--sky-bottom": "#f7d18d", background: "linear-gradient(to bottom, #fbe3b4, #f7d18d)" }}
         aria-labelledby="paths-title"
       >
         <div className="gutter mx-auto max-w-[110rem]">

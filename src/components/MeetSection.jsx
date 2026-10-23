@@ -201,7 +201,7 @@ export default function MeetSection({ navigate }) {
 
     const handleScroll = (currentX) => {
       hallRef.current?.style.setProperty('--floor-x', `${currentX.toFixed(1)}px`);
-      const focalThreshold = 0.42 * window.innerWidth;
+      const focalThreshold = Math.max(0.48 * window.innerWidth, 560);
 
       for (const door of track.children) {
         const doorLeft = door.offsetLeft + currentX;
